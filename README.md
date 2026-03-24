@@ -8,24 +8,43 @@ Projeto desenvolvido para a disciplina de **Algoritmos**, utilizando a linguagem
 
 ## 📌  Descrição do Dataset
 
-O presente projeto tem como objetivo analisar e compreender o comportamento dos preços de combustíveis no Brasil ao longo do tempo, utilizando dados públicos disponibilizados pela Agência Nacional do Petróleo, Gás Natural e Biocombustíveis (ANP).
+O Projeto tem como objetivo analisar e compreender o comportamento dos preços de combustíveis no Brasil ao longo do tempo, utilizando dados públicos disponibilizados pela [Agência Nacional do Petróleo, Gás Natural e Biocombustíveis](https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/serie-historica-de-precos-de-combustiveis).
 
-O conjunto de dados utilizado consiste na série histórica de preços de combustíveis, contendo informações coletadas semanalmente em diversos postos distribuídos por estados e municípios brasileiros.
+O conjunto de dados utilizado consiste na série histórica de preços de combustíveis, com informações coletadas semanalmente em diversos postos distribuídos por estados e municípios brasileiros. A base contempla variáveis relevantes, como localização geográfica (estado e município), região, tipo de combustível, datas de coleta e valores de compra e venda.
 
-A base de dados inclui variáveis relevantes como localização geográfica (estado e município), tipo de combustível (gasolina, etanol, diesel, entre outros), datas de coleta e valores de compra e venda.
+As **regiões brasileiras** consideradas na base são:
 
-Para este estudo, foi selecionado o período de 2015 a 2025 para o Dataset de estudo, por apresentar maior consistência nos dados e englobar eventos econômicos significativos que impactaram diretamente os preços dos combustíveis, como a crise econômica brasileira, a greve dos caminhoneiros em 2018 e a pandemia de COVID-19 em 2020.
+* Norte (N)
+* Nordeste (NE)
+* Sudeste (SE)
+* Sul (S)
+* Centro-Oeste (CO)
 
-- 2016 - Crise econômica do Brasil
-- 2018 - Greve dos Caminhoneiros (impacto direto no combustível)
-- 2020 - Pandemia (Covid-19)
-- 2022 - Alta global do combustível
-- 
-O conjunto de dados consolidado possui 9889848 instâncias (linhas) e 17 atributos (colunas). As variáveis estão divididas em tipos distintos: categóricas (como estado, município, produto e bandeira), numéricas contínuas (como valor de compra e valor de venda) e temporais (data da coleta).
+Já os **produtos analisados** incluem:
 
-Do ponto de vista prático, a compreensão desses dados permite aplicações como a previsão de custos operacionais para o setor de transporte e o monitoramento de anomalias mercadológicas.
+* Gasolina Comum
+* Gasolina Aditivada
+* Etanol
+* Diesel
+* Diesel S10
+* GNV (Gás Natural Veicular)
 
-Com base nesse contexto, o estudo configura-se como um problema de Regressão / Classificação, visto que o objetivo futuro da modelagem será prever o valor contínuo do combustível nas bombas / categorizar a tendência do mercado como alta, baixa ou estável.
+Para este estudo, foi selecionado o **período de 2015 a 2025**, por apresentar maior consistência nos dados e abranger eventos econômicos relevantes que impactaram diretamente os preços dos combustíveis, tais como:
+
+* 2016 – Crise econômica no Brasil
+* 2018 – Greve dos caminhoneiros (impacto direto no abastecimento)
+* 2020 – Pandemia de COVID-19
+* 2022 – Alta global dos combustíveis
+
+O conjunto de dados consolidado possui 9.889.848 instâncias (linhas) e 17 atributos (colunas), incluindo variáveis categóricas (como estado, município, produto e bandeira), numéricas contínuas (como valores de compra e venda) e temporais (datas de coleta).
+
+Do ponto de vista analítico, este projeto também investiga a relação entre os preços de venda dos combustíveis ao longo dos anos e o poder de compra da população brasileira, representado pelo **IPCA (Índice Nacional de Preços ao Consumidor Amplo)**, calculado pelo [Banco Central do Brasil](https://www.bcb.gov.br/controleinflacao/historicometas).
+
+O objetivo é verificar a existência de correlação entre a evolução dos preços dos combustíveis e a inflação oficial do país, buscando compreender se os aumentos nos preços acompanham, superam ou divergem da variação inflacionária no período analisado. A análise de correlação permite identificar o grau de associação entre essas variáveis, podendo indicar relações positivas, negativas ou inexistentes.
+
+Ressalta-se que correlação não implica causalidade, ou seja, mesmo que haja associação entre as variáveis, não é possível afirmar que uma seja a causa direta da outra. Ainda assim, essa análise contribui para uma compreensão mais aprofundada do comportamento dos preços dos combustíveis no contexto econômico nacional e seus impactos sobre o poder de compra da população.
+
+Por fim, sob a perspectiva de ciência de dados, o estudo configura-se como um problema de regressão e classificação, tendo como objetivo futuro a previsão dos preços dos combustíveis e a categorização de tendências de mercado (alta, baixa ou estabilidade). Essas aplicações possuem relevância prática, como o apoio à tomada de decisão no setor de transporte e o monitoramento de anomalias no mercado.
 
 ---
 
@@ -34,6 +53,8 @@ Com base nesse contexto, o estudo configura-se como um problema de Regressão / 
 - Bruno Gabriel `<bgprs>`
 - Flávia Vitória `<fves>`
 - Lucas Cabral `<lsc>`
+- Ítallo Augusto `<iapam>`
+- Nathan Barbosa `<nbs3>`
 
 ---
 
@@ -63,7 +84,7 @@ cd
 
 ## 📎 Links Úteis
 
-- 📒 Documentos Google (Documentação):
+- 📒 Documentos Google (Documentação): https://docs.google.com/document/d/1OUwCZPyRawydDn3W3Rghq1-GurU5QXb4JByeKr8a1y4/edit?usp=sharing
 
 ---
 
