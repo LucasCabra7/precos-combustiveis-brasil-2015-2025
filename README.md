@@ -16,10 +16,11 @@ A base de dados inclui variáveis relevantes como localização geográfica (est
 
 Para este estudo, foi selecionado o período de 2015 a 2025 para o Dataset de estudo, por apresentar maior consistência nos dados e englobar eventos econômicos significativos que impactaram diretamente os preços dos combustíveis, como a crise econômica brasileira, a greve dos caminhoneiros em 2018 e a pandemia de COVID-19 em 2020.
 
-2016 - Crise econômica do Brasil
-2018 - Greve dos Caminhoneiros (impacto direto no combustível)
-2020 - Pandemia (Covid-19)
-2022 - Alta global do combustível
+- 2016 - Crise econômica do Brasil
+- 2018 - Greve dos Caminhoneiros (impacto direto no combustível)
+- 2020 - Pandemia (Covid-19)
+- 2022 - Alta global do combustível
+- 
 O conjunto de dados consolidado possui 9889848 instâncias (linhas) e 17 atributos (colunas). As variáveis estão divididas em tipos distintos: categóricas (como estado, município, produto e bandeira), numéricas contínuas (como valor de compra e valor de venda) e temporais (data da coleta).
 
 Do ponto de vista prático, a compreensão desses dados permite aplicações como a previsão de custos operacionais para o setor de transporte e o monitoramento de anomalias mercadológicas.
