@@ -107,8 +107,8 @@ Este projeto é de caráter acadêmico, sem fins lucrativos. Todos os direitos r
         <b>Lucas Cabral</b>
       </td>
       <td align="center">
-        <img src=""/><br/>
-        <b></b>
+        <img src="https://avatars.githubusercontent.com/u/147522368?v=4" width="100px"/><br/>
+        <b>Itallo Augusto</b>
       </td>
       <td align="center">
         <img src=""/><br/>
