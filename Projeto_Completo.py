@@ -90,7 +90,7 @@ def aplicar_interpolacao(X):
     return df.values
 
 # Instanciação (Ajuste o caminho do arquivo aqui) -> caminho para o dataset
-gerenciador = GerenciadorDePipelines(caminho_dataset=r'C:\Users\Itallo_Melo\Documents\VSC - Projetos\Projeto - Ciencia de dados\Dataset 2015 - 2025 (Separados)-20260418T194142Z-3-001\Dataset 2015 - 2025 (Separados)\Dataset_Completo_2015_2025.csv')
+gerenciador = GerenciadorDePipelines(caminho_dataset=r'C:\Users\Itallo_Melo\Documents\Clone Github\VSC - Projetos\Projeto - Ciencia de dados\Dataset 2015 - 2025 (Separados)-20260418T194142Z-3-001\Dataset 2015 - 2025 (Separados)\Dataset_Completo_2015_2025.csv')
 dados = gerenciador.carregar_dados()
 
 experimentos = {
@@ -900,13 +900,18 @@ target = "Valor de Venda"
 X = df_encoded.drop(columns=[target]).select_dtypes(include=[np.number])
 y = df_encoded[target]
 
-# Reduzir amostra para acelerar os experimentos com KNN
-# KNN é computacionalmente intensivo O(n*k) por predição
-amostra_size = 5000  # Usar 5000 amostras para os experimentos
-np.random.seed(42)
-indices = np.random.choice(len(X), size=min(amostra_size, len(X)), replace=False)
-X = X.iloc[indices].reset_index(drop=True)
-y = y.iloc[indices].reset_index(drop=True)
+# Usar todo o dataset para os experimentos
+# KNN é computacionalmente intensivo - se o dataset for muito grande,
+# pode processar em chunks usando o ExecutorDeExperimentosChunked
+amostra_size = None  # None = usar todo o dataset
+if amostra_size:
+    np.random.seed(42)
+    indices = np.random.choice(len(X), size=min(amostra_size, len(X)), replace=False)
+    X = X.iloc[indices].reset_index(drop=True)
+    y = y.iloc[indices].reset_index(drop=True)
+    print(f"Usando amostra de {len(X)} instâncias")
+else:
+    print(f"Usando dataset completo: {len(X)} instâncias")
 
 # Classe do Modelo
 class ModeloKNN:
@@ -962,6 +967,60 @@ class ExecutorDeExperimentos:
             self.resultados.append(registro)
 
         return pd.DataFrame(self.resultados)
+
+
+# Classe de Execução com Chunking (para datasets grandes)
+class ExecutorDeExperimentosChunked:
+    """
+    Executa experimentos processando o dataset em chunks.
+    Útil para datasets muito grandes que não cabem na memória.
+    """
+    def __init__(self, avaliador, chunk_size: int = 10000):
+        self.avaliador = avaliador
+        self.chunk_size = chunk_size
+        self.resultados = []
+
+    def executar(self, pipelines, X, y):
+        n_total = len(X)
+        n_chunks = (n_total + self.chunk_size - 1) // self.chunk_size
+        
+        print(f"Processando {n_total} instâncias em {n_chunks} chunks de ~{self.chunk_size}")
+        
+        # Acumuladores para média ponderada dos resultados
+        resultados_acumulados = {nome: {"soma_scores": {}, "n_chunks": 0} for nome in pipelines.keys()}
+        
+        for i in range(n_chunks):
+            start_idx = i * self.chunk_size
+            end_idx = min((i + 1) * self.chunk_size, n_total)
+            
+            X_chunk = X.iloc[start_idx:end_idx].reset_index(drop=True)
+            y_chunk = y.iloc[start_idx:end_idx].reset_index(drop=True)
+            
+            print(f"  Processando chunk {i+1}/{n_chunks} (instâncias {start_idx} a {end_idx})...")
+            
+            for nome, pipeline in pipelines.items():
+                resultado = self.avaliador.avaliar(pipeline, X_chunk, y_chunk)
+                
+                if resultados_acumulados[nome]["n_chunks"] == 0:
+                    resultados_acumulados[nome]["soma_scores"] = {
+                        metrica: valores["media"] for metrica, valores in resultado.items()
+                    }
+                else:
+                    for metrica, valores in resultado.items():
+                        resultados_acumulados[nome]["soma_scores"][metrica] += valores["media"]
+                
+                resultados_acumulados[nome]["n_chunks"] += 1
+        
+        # Calcular médias finais
+        for nome, dados in resultados_acumulados.items():
+            n = dados["n_chunks"]
+            registro = {"pipeline": nome}
+            for metrica, soma in dados["soma_scores"].items():
+                registro[f"{metrica}_media"] = soma / n
+                registro[f"{metrica}_std"] = 0  # Std não disponível no modo chunked
+            self.resultados.append(registro)
+        
+        return pd.DataFrame(self.resultados)
     
 # Integração dos Pipelines
 # O dicionário 'experimentos' já inclui o regressor KNN na chave 'regressor',
@@ -971,7 +1030,15 @@ pipelines = {nome: pipe for nome, pipe in lista_pipelines}
 
 # Execução dos Experimentos
 avaliador = AvaliadorDeModelos(cv=5)
-executor = ExecutorDeExperimentos(avaliador)
+
+# Escolher executor baseado no tamanho do dataset
+# Se dataset > 10000, usar executor com chunking para evitar memória
+limiar_chunk = 10000
+if len(X) > limiar_chunk:
+    print(f"\nDataset grande detectado ({len(X)} instâncias). Usando ExecutorDeExperimentosChunked...")
+    executor = ExecutorDeExperimentosChunked(avaliador, chunk_size=10000)
+else:
+    executor = ExecutorDeExperimentos(avaliador)
 
 resultados_df = executor.executar(pipelines, X, y)
 
