@@ -2,7 +2,7 @@
 
 # Análise Exploratória e Modelagem Preditiva dos Preços de Combustíveis no Brasil (2015–2025)
 
-Projeto desenvolvido para a disciplina de **Algoritmos**, utilizando a linguagem **C** e os princípios fundamentais da **Programação Orientada a Objetos e Algoritmos**.
+Projeto desenvolvido para a disciplina de **Aprendizado de Máquina e Ciência de Dados**, com foco na utilização da linguagem **Python** para **análise exploratória de dados (EDA)**, **tratamento de dados** e **modelagem preditiva**.
 
 ---
 
